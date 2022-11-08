@@ -35,7 +35,7 @@ class Magazzino extends React.Component {
     }
 
     async getCategorie() {
-        let result = await fetch("http://localhost:4000/Categorie/GetCategorie/", {
+        let result = await fetch("https://localhost:5001/Categorie/GetCategorie/", {
             method: "GET", // *GET, POST, PUT, DELETE, etc.
             credentials: "same-origin", // include, *same-origin, omit
             headers: {
@@ -48,7 +48,7 @@ class Magazzino extends React.Component {
     }
 
     async getProducts() {
-        let result = await fetch("http://localhost:4000/Prodotti/GetProdotti/?parameters=" + this.state.tabella, {
+        let result = await fetch("https://localhost:5001/Prodotti/GetProdotti/?parameters=" + this.state.tabella, {
             method: "GET", // *GET, POST, PUT, DELETE, etc.
             credentials: "same-origin", // include, *same-origin, omit
             headers: {
@@ -254,7 +254,7 @@ class Magazzino extends React.Component {
 
 
     async Remove(id) {
-        let result = await fetch("http://localhost:4000/Prodotti/Remove/?parameters=" + id, {
+        let result = await fetch("https://localhost:5001/Prodotti/Remove/?parameters=" + id, {
             method: "GET", // *GET, POST, PUT, DELETE, etc.
             credentials: "same-origin", // include, *same-origin, omit
             headers: {
@@ -279,7 +279,7 @@ class Magazzino extends React.Component {
         } else {
             cate = this.state.edRow.categoria
         }
-        let result = await fetch("http://localhost:4000/Prodotti/Edit/?parameters=" + this.state.utente + "|" + id + "|" + this.state.edRow.nome + "|" + this.state.edRow.descrizione + "|" + cate + "|" + this.state.edRow.prezzo + "|" + this.state.edRow.quantità, {
+        let result = await fetch("https://localhost:5001/Prodotti/Edit/?parameters=" + this.state.utente + "|" + id + "|" + this.state.edRow.nome + "|" + this.state.edRow.descrizione + "|" + cate + "|" + this.state.edRow.prezzo + "|" + this.state.edRow.quantità, {
             method: "POST", // *GET, POST, PUT, DELETE, etc.
             credentials: "same-origin", // include, *same-origin, omit
             headers: {
@@ -300,7 +300,7 @@ class Magazzino extends React.Component {
 
     async addUsers() {
         var cate = this.state.tabella == "All" ? $("#adderSelect").val() : this.state.tabella
-        let result = await fetch("http://localhost:4000/Prodotti/Add/?parameters=" + this.state.utente + "|" + $("#nomeAdd").val() + "|" + $("#descAdd").val() + "|" + cate + "|" + $("#prezAdd").val() + "|" + $("#quanAdd").val(), {
+        let result = await fetch("https://localhost:5001/Prodotti/Add/?parameters=" + this.state.utente + "|" + $("#nomeAdd").val() + "|" + $("#descAdd").val() + "|" + cate + "|" + $("#prezAdd").val() + "|" + $("#quanAdd").val(), {
             method: "POST", // *GET, POST, PUT, DELETE, etc.
             credentials: "same-origin", // include, *same-origin, omit
             headers: {

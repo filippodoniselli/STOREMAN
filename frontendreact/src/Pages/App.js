@@ -33,7 +33,7 @@ class App extends React.Component {
     }
 
     async retrieveCategorie() {
-        let result = await fetch("http://localhost:4000/Categorie/GetCategorieNotNull/", {
+        let result = await fetch("https://localhost:5001/Categorie/GetCategorieNotNull/", {
             method: "GET", // *GET, POST, PUT, DELETE, etc.
             credentials: "same-origin", // include, *same-origin, omit
             headers: {
@@ -155,7 +155,7 @@ class App extends React.Component {
     }
 
     async setFirstUser() {
-        let resultAdd = await fetch("http://localhost:4000/Utenti/Add/?parameters=" + "2|" + $("#firstUser").val() + "|" + $("#firstPass").val() + "|1", {
+        let resultAdd = await fetch("https://localhost:5001/Utenti/Add/?parameters=" + "2|" + $("#firstUser").val() + "|" + $("#firstPass").val() + "|1", {
             method: "POST", // *GET, POST, PUT, DELETE, etc.
             credentials: "same-origin", // include, *same-origin, omit
             headers: {
@@ -165,7 +165,7 @@ class App extends React.Component {
             }
         }).then(res => res.text());
         if (resultAdd.includes("Aggiunto")) {
-            let resultEdit = await fetch("http://localhost:4000/Utenti/Edit/?parameters=" + "1|Admin|Segretissimo|1|1", {
+            let resultEdit = await fetch("https://localhost:5001/Utenti/Edit/?parameters=" + "1|Admin|Segretissimo|1|1", {
                 method: "POST", // *GET, POST, PUT, DELETE, etc.
                 credentials: "same-origin", // include, *same-origin, omit
                 headers: {
@@ -175,7 +175,7 @@ class App extends React.Component {
                 }
             }).then(res => res.text());
             if (resultEdit.includes("Modificato")) {
-                let resultCheck = await fetch("http://localhost:4000/Utenti/Check/?parameters=" + $("#firstUser").val() + "|" + $("#firstPass").val(), {
+                let resultCheck = await fetch("https://localhost:5001/Utenti/Check/?parameters=" + $("#firstUser").val() + "|" + $("#firstPass").val(), {
                     method: "GET", // *GET, POST, PUT, DELETE, etc.
                     credentials: "same-origin", // include, *same-origin, omit
                     headers: {
@@ -232,7 +232,7 @@ class App extends React.Component {
 
     async checkUser() {
         $(".loginError").remove();
-        let result = await fetch("http://localhost:4000/Utenti/Check/?parameters=" + this.state.user.username + "|" + this.state.user.password, {
+        let result = await fetch("https://localhost:5001/Utenti/Check/?parameters=" + this.state.user.username + "|" + this.state.user.password, {
             method: "GET", // *GET, POST, PUT, DELETE, etc.
             credentials: "same-origin", // include, *same-origin, omit
             headers: {

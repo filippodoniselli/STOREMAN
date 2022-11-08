@@ -27,7 +27,7 @@ class Categorie extends React.Component {
     }
 
     async getCategorie() {
-        let result = await fetch("http://localhost:4000/Categorie/GetCategorie/", {
+        let result = await fetch("https://localhost:5001/Categorie/GetCategorie/", {
             method: "GET", // *GET, POST, PUT, DELETE, etc.
             credentials: "same-origin", // include, *same-origin, omit
             headers: {
@@ -140,7 +140,7 @@ class Categorie extends React.Component {
     }
 
     async Remove(id) {
-        let result = await fetch("http://localhost:4000/Categorie/Remove/?parameters=" + id, {
+        let result = await fetch("https://localhost:5001/Categorie/Remove/?parameters=" + id, {
             method: "GET", // *GET, POST, PUT, DELETE, etc.
             credentials: "same-origin", // include, *same-origin, omit
             headers: {
@@ -159,7 +159,7 @@ class Categorie extends React.Component {
     }
 
     async saveChanges(id) {
-        let result = await fetch("http://localhost:4000/Categorie/Edit/?parameters=" + this.state.utente + "|" + this.state.edRow.nome + "|" + id, {
+        let result = await fetch("https://localhost:5001/Categorie/Edit/?parameters=" + this.state.utente + "|" + this.state.edRow.nome + "|" + id, {
             method: "POST", // *GET, POST, PUT, DELETE, etc.
             credentials: "same-origin", // include, *same-origin, omit
             headers: {
@@ -179,7 +179,7 @@ class Categorie extends React.Component {
     }
 
     async addCate() {
-        let result = await fetch("http://localhost:4000/Categorie/Add/?parameters=" + this.state.utente + "|" + $("#nomeAdd").val(), {
+        let result = await fetch("https://localhost:5001/Categorie/Add/?parameters=" + this.state.utente + "|" + $("#nomeAdd").val(), {
             method: "POST", // *GET, POST, PUT, DELETE, etc.
             credentials: "same-origin", // include, *same-origin, omit
             headers: {

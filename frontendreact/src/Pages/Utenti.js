@@ -31,7 +31,7 @@ class Utenti extends React.Component {
     }
 
     async getPrivilegi() {
-        let result = await fetch("http://localhost:4000/Utenti/GetPrivilegi", {
+        let result = await fetch("https://localhost:5001/Utenti/GetPrivilegi", {
             method: "GET", // *GET, POST, PUT, DELETE, etc.
             credentials: "same-origin", // include, *same-origin, omit
             headers: {
@@ -44,7 +44,7 @@ class Utenti extends React.Component {
     }
 
     async getUsers() {
-        let result = await fetch("http://localhost:4000/Utenti/All", {
+        let result = await fetch("https://localhost:5001/Utenti/All", {
             method: "GET", // *GET, POST, PUT, DELETE, etc.
             credentials: "same-origin", // include, *same-origin, omit
             headers: {
@@ -177,7 +177,7 @@ class Utenti extends React.Component {
     }
 
     async Remove(id) {
-        let result = await fetch("http://localhost:4000/Utenti/Remove/?parameters=" + id, {
+        let result = await fetch("https://localhost:5001/Utenti/Remove/?parameters=" + id, {
             method: "GET", // *GET, POST, PUT, DELETE, etc.
             credentials: "same-origin", // include, *same-origin, omit
             headers: {
@@ -196,7 +196,7 @@ class Utenti extends React.Component {
     }
 
     async saveChanges(id) {
-        let result = await fetch("http://localhost:4000/Utenti/Edit/?parameters=" + this.state.utente + "|" + this.state.edRow.username + "|" + this.state.edRow.password + "|" + id + "|" + $("#select" + id).val(), {
+        let result = await fetch("https://localhost:5001/Utenti/Edit/?parameters=" + this.state.utente + "|" + this.state.edRow.username + "|" + this.state.edRow.password + "|" + id + "|" + $("#select" + id).val(), {
             method: "POST", // *GET, POST, PUT, DELETE, etc.
             credentials: "same-origin", // include, *same-origin, omit
             headers: {
@@ -216,7 +216,7 @@ class Utenti extends React.Component {
     }
 
     async addUsers() {
-        let result = await fetch("http://localhost:4000/Utenti/Add/?parameters=" + this.state.utente + "|" + $("#userN").val() + "|" + $("#pwd").val() + "|" + $("#adderSelect").val(), {
+        let result = await fetch("https://localhost:5001/Utenti/Add/?parameters=" + this.state.utente + "|" + $("#userN").val() + "|" + $("#pwd").val() + "|" + $("#adderSelect").val(), {
             method: "POST", // *GET, POST, PUT, DELETE, etc.
             credentials: "same-origin", // include, *same-origin, omit
             headers: {
