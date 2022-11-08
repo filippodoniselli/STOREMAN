@@ -1,0 +1,92 @@
+.App {
+  min-height: 100vh;
+  font-size: calc(10px + 2vmin);
+  background-color: white;
+  color: #282c34;
+}
+
+.navbar {
+  justify-content: left;
+}
+
+.title-main{
+  margin-left: 0.5em;
+  margin-right: 1em;
+  color:white;
+  text-decoration: none;
+}
+
+.title-main:hover {
+  cursor: pointer;
+  color: white;
+}
+
+.dropdown-item:active{
+  background-color: #5E6167;
+  color: white;
+}
+
+.adjustment {
+  margin-left: 1em;
+  margin-right: 1em;
+  padding: 0.25em;
+}
+
+.title{
+  margin-left: 0.5em;
+  margin-right: 1em;
+  padding: 0.25em;
+  color:white;
+  text-decoration: none;
+}
+
+.title:hover {
+  cursor: pointer;
+  color: white;
+  border-left: #5E6167 solid 1px;
+  border-right: #5E6167 solid 1px;
+}
+
+.top-bar {
+  background-color: #282c34;
+  color:white;
+  width: 100%;
+  padding: 1em 0 1em 1em;
+  align-items: left;
+}
+
+.login-card {
+  margin: auto;
+  width: 40%;
+  height: 100%;
+  display: flex;
+  margin-top: 1em;
+}
+
+.welcome-card {
+  margin: auto;
+  width: 60%;
+  height: 100%;
+  display: flex;
+  margin-top: 1em;
+}
+
+
+.home-announce{
+  margin-top: 1em;
+}
+
+.log-btn {
+  width: 100%;
+}
+
+.card-header {
+  text-align: center;
+}
+
+.loginError{
+  text-align: center;
+  color: red;
+  font-size: calc(6px + 2vmin);
+  margin-top: 1em;
+}

@@ -1,0 +1,72 @@
+.commands {
+    color: #282c34;
+    display: flex;
+    flex-direction: row;
+}
+
+.alert-footer {
+    margin: auto;
+    position: fixed;
+    bottom: 1em;
+    width: 100%;
+    text-align: center;
+    z-index: 0;
+}
+
+.opts {
+    margin-right: 1em;
+    margin-bottom:  1em;
+}
+
+#App-Body {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    margin-top: 1em;
+}
+  
+.collapsedOptions {
+padding: 0.25em;
+}
+
+.btn-group {
+min-width: 0;
+}
+
+#gridHead {
+    border-style: solid;
+    border-color: #282c34;
+    border-radius: 15px 15px 0 0;
+    border: 1px #282c34 solid;
+    text-align: center;
+    background-color: #282c34;
+    color: white;
+    font-weight: 500;
+}
+
+.form-control{
+background-color: white;
+color:#282c34;
+text-align: center;
+font-size: calc(5px + 2vmin);
+width: 100%;
+}
+
+.gridCell {
+    border-bottom: 1px #282c34 solid;
+    border-left: 1px #282c34 solid;
+    border-right: 1px #282c34 solid;
+    font-size: calc(8px + 2vmin);
+    text-align: center;
+    padding: 0.25em;
+}
+
+
+.App-link {
+color: #61dafb;
+}
+
+.adder {
+margin-top: 1em;
+margin-bottom: 1em;
+}

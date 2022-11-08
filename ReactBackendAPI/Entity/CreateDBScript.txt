@@ -1,0 +1,249 @@
+USE [master]
+
+/****** Object:  Database [StoreMan]    Script Date: 04/11/2022 09:40:23 ******/
+CREATE DATABASE [StoreMan]
+ CONTAINMENT = NONE
+ ON  PRIMARY 
+( NAME = N'StoreMan', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL15.SQLEXPRESS\MSSQL\DATA\StoreMan.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
+ LOG ON 
+( NAME = N'StoreMan_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL15.SQLEXPRESS\MSSQL\DATA\StoreMan_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
+ WITH CATALOG_COLLATION = DATABASE_DEFAULT
+
+--SPLIT
+
+ALTER DATABASE [StoreMan] SET COMPATIBILITY_LEVEL = 150
+
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [StoreMan].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+
+ALTER DATABASE [StoreMan] SET ANSI_NULL_DEFAULT OFF 
+
+ALTER DATABASE [StoreMan] SET ANSI_NULLS OFF 
+
+ALTER DATABASE [StoreMan] SET ANSI_PADDING OFF 
+
+ALTER DATABASE [StoreMan] SET ANSI_WARNINGS OFF 
+
+ALTER DATABASE [StoreMan] SET ARITHABORT OFF 
+
+ALTER DATABASE [StoreMan] SET AUTO_CLOSE OFF 
+
+ALTER DATABASE [StoreMan] SET AUTO_SHRINK OFF 
+
+ALTER DATABASE [StoreMan] SET AUTO_UPDATE_STATISTICS ON 
+
+ALTER DATABASE [StoreMan] SET CURSOR_CLOSE_ON_COMMIT OFF 
+
+ALTER DATABASE [StoreMan] SET CURSOR_DEFAULT  GLOBAL 
+
+ALTER DATABASE [StoreMan] SET CONCAT_NULL_YIELDS_NULL OFF 
+
+ALTER DATABASE [StoreMan] SET NUMERIC_ROUNDABORT OFF 
+
+ALTER DATABASE [StoreMan] SET QUOTED_IDENTIFIER OFF 
+
+ALTER DATABASE [StoreMan] SET RECURSIVE_TRIGGERS OFF 
+
+ALTER DATABASE [StoreMan] SET  DISABLE_BROKER 
+
+ALTER DATABASE [StoreMan] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+
+ALTER DATABASE [StoreMan] SET DATE_CORRELATION_OPTIMIZATION OFF 
+
+ALTER DATABASE [StoreMan] SET TRUSTWORTHY OFF 
+
+ALTER DATABASE [StoreMan] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+
+ALTER DATABASE [StoreMan] SET PARAMETERIZATION SIMPLE 
+
+ALTER DATABASE [StoreMan] SET READ_COMMITTED_SNAPSHOT OFF 
+
+ALTER DATABASE [StoreMan] SET HONOR_BROKER_PRIORITY OFF 
+
+ALTER DATABASE [StoreMan] SET RECOVERY SIMPLE 
+
+ALTER DATABASE [StoreMan] SET  MULTI_USER 
+
+ALTER DATABASE [StoreMan] SET PAGE_VERIFY CHECKSUM  
+
+ALTER DATABASE [StoreMan] SET DB_CHAINING OFF 
+
+ALTER DATABASE [StoreMan] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+
+ALTER DATABASE [StoreMan] SET TARGET_RECOVERY_TIME = 60 SECONDS 
+
+ALTER DATABASE [StoreMan] SET DELAYED_DURABILITY = DISABLED 
+
+ALTER DATABASE [StoreMan] SET ACCELERATED_DATABASE_RECOVERY = OFF  
+
+ALTER DATABASE [StoreMan] SET QUERY_STORE = OFF
+
+USE [StoreMan]
+
+/****** Object:  Table [dbo].[Categorie]    Script Date: 04/11/2022 09:40:23 ******/
+SET ANSI_NULLS ON
+
+SET QUOTED_IDENTIFIER ON
+
+CREATE TABLE [dbo].[Categorie](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[Nome] [varchar](30) NOT NULL,
+	[Creatore] [int] NOT NULL,
+	[Data] [smalldatetime] NOT NULL,
+ CONSTRAINT [PK_Categorie] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+
+/****** Object:  Table [dbo].[Privilegi]    Script Date: 04/11/2022 09:40:23 ******/
+SET ANSI_NULLS ON
+
+SET QUOTED_IDENTIFIER ON
+
+CREATE TABLE [dbo].[Privilegi](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[Descrizione] [varchar](30) NOT NULL,
+	[Data] [smalldatetime] NOT NULL,
+ CONSTRAINT [PK_Privilegi] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+
+/****** Object:  Table [dbo].[Prodotti]    Script Date: 04/11/2022 09:40:23 ******/
+SET ANSI_NULLS ON
+
+SET QUOTED_IDENTIFIER ON
+
+CREATE TABLE [dbo].[Prodotti](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[Nome] [varchar](30) NOT NULL,
+	[Descrizione] [varchar](200) NULL,
+	[Prezzo] [float] NOT NULL,
+	[Quantità] [int] NOT NULL,
+	[Categoria] [int] NULL,
+	[Creatore] [int] NOT NULL,
+	[Data] [smalldatetime] NOT NULL,
+ CONSTRAINT [PK_Prodotti] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+
+/****** Object:  Table [dbo].[Utenti]    Script Date: 04/11/2022 09:40:23 ******/
+SET ANSI_NULLS ON
+
+SET QUOTED_IDENTIFIER ON
+
+CREATE TABLE [dbo].[Utenti](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[Username] [varchar](30) NOT NULL,
+	[Password] [varchar](30) NOT NULL,
+	[Privilegi] [int] NOT NULL,
+	[Creatore] [int] NULL,
+	[Data] [smalldatetime] NOT NULL,
+ CONSTRAINT [PK_Utenti] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+
+
+ALTER TABLE [dbo].[Categorie]  WITH CHECK ADD  CONSTRAINT [FK_Categorie_Utenti] FOREIGN KEY([Creatore])
+REFERENCES [dbo].[Utenti] ([ID])
+
+ALTER TABLE [dbo].[Categorie] CHECK CONSTRAINT [FK_Categorie_Utenti]
+
+ALTER TABLE [dbo].[Prodotti]  WITH CHECK ADD  CONSTRAINT [FK_Prodotti_Categorie] FOREIGN KEY([Categoria])
+REFERENCES [dbo].[Categorie] ([ID])
+
+ALTER TABLE [dbo].[Prodotti] CHECK CONSTRAINT [FK_Prodotti_Categorie]
+
+ALTER TABLE [dbo].[Prodotti]  WITH CHECK ADD  CONSTRAINT [FK_Prodotti_Utenti] FOREIGN KEY([Creatore])
+REFERENCES [dbo].[Utenti] ([ID])
+
+ALTER TABLE [dbo].[Prodotti] CHECK CONSTRAINT [FK_Prodotti_Utenti]
+
+ALTER TABLE [dbo].[Utenti]  WITH CHECK ADD  CONSTRAINT [FK_Utenti_Privilegi] FOREIGN KEY([Privilegi])
+REFERENCES [dbo].[Privilegi] ([ID])
+
+ALTER TABLE [dbo].[Utenti] CHECK CONSTRAINT [FK_Utenti_Privilegi]
+
+USE [master]
+
+ALTER DATABASE [StoreMan] SET  READ_WRITE 
+
+USE [StoreMan]
+
+INSERT INTO [dbo].[Privilegi]
+           ([Descrizione]
+           ,[Data])
+     VALUES
+           ('Amministratore'
+           ,GETDATE())
+USE [StoreMan]
+
+INSERT INTO [dbo].[Privilegi]
+           ([Descrizione]
+           ,[Data])
+     VALUES
+           ('Gestore'
+           ,GETDATE())
+
+		   USE [StoreMan]
+
+INSERT INTO [dbo].[Privilegi]
+           ([Descrizione]
+           ,[Data])
+     VALUES
+           ('Magazziniere'
+           ,GETDATE())
+
+
+USE [StoreMan]
+
+INSERT INTO [dbo].[Utenti]
+           ([Username]
+           ,[Password]
+           ,[Privilegi]
+           ,[Creatore]
+           ,[Data])
+     VALUES
+           ('Admin'
+           ,'Admin'
+           ,1
+           ,1
+           ,GETDATE())
+
+USE [StoreMan]
+
+INSERT INTO [dbo].[Categorie]
+           ([Nome]
+           ,[Creatore]
+           ,[Data])
+     VALUES
+           ('Videogiochi'
+           ,1
+           ,GETDATE())
+
+USE [StoreMan]
+
+INSERT INTO [dbo].[Prodotti]
+           ([Nome]
+           ,[Descrizione]
+           ,[Prezzo]
+           ,[Quantità]
+           ,[Categoria]
+           ,[Creatore]
+           ,[Data])
+     VALUES
+           ('God Of War - Ragnarok'
+           ,'Sequel di God Of War (2018)'
+           ,79.9
+           ,50
+           ,1
+           ,1
+           ,GETDATE())
