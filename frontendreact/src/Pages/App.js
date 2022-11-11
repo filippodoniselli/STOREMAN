@@ -102,6 +102,36 @@ class App extends React.Component {
                                 <a className='title' href="#" onClick={() => this.setState({ active: "Utenti" })}>Utenti</a>
                             </div>
                         }
+                        {
+                            this.state.user.id>0 &&
+                            <div className="usermanager">
+                                <div className='dropdown'>
+                                        <a className='title dropdown-toggle' role="button" href="#" id="home-cmd" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-person"></i></a>
+                                        <ul className="dropdown-menu adjustment-left dropdown-menu-end">
+                                            {
+                                                this.state.privilegi == 1 &&
+                                                <li key={0} className="dropdown-item">{this.state.user.username} - Amministratore</li>
+                                            }
+                                            {
+                                                this.state.privilegi == 2 &&
+                                                <li key={0} className="dropdown-item">{this.state.user.username} - Gestore</li>
+                                            }
+                                            {
+                                                this.state.privilegi == 3 &&
+                                                <li key={0} className="dropdown-item">{this.state.user.username} - Magazziniere</li>
+                                            }
+                                            <li key={1}><a className="dropdown-item logout" href="#" onClick={() => this.setState({
+                                                active: "Login",
+                                                user: { username: "", password: "", id: 0 },
+                                                privilegi: 0,
+                                                categorie: [],
+                                                tabella: null
+                                            })}>Logout</a>
+                                            </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        }
                     </nav>
                 </div>
                 {

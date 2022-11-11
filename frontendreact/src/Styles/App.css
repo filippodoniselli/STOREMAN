@@ -32,12 +32,32 @@
   padding: 0.25em;
 }
 
-.title{
-  margin-left: 0.5em;
-  margin-right: 1em;
-  padding: 0.25em;
-  color:white;
-  text-decoration: none;
+.adjustment-left {
+    margin-right: 1em;
+    margin-left: 1em;
+    padding: 0.25em;
+    text-align: left
+}
+
+.logout:hover
+{
+    color: white;
+    background-color:red;
+    font-weight:500;
+}
+
+.logout {
+    color: red;
+    background-color: white;
+}
+
+
+.title {
+    margin-left: 0.5em;
+    margin-right: 1em;
+    padding: 0.25em;
+    color: white;
+    text-decoration: none;
 }
 
 .title:hover {
@@ -52,7 +72,7 @@
   color:white;
   width: 100%;
   padding: 1em 0 1em 1em;
-  align-items: left;
+  align-items: flex-end;
 }
 
 .login-card {
@@ -84,9 +104,15 @@
   text-align: center;
 }
 
-.loginError{
-  text-align: center;
-  color: red;
-  font-size: calc(6px + 2vmin);
-  margin-top: 1em;
+.usermanager {
+    font-size: calc(8px + 2vmin);
+    position: fixed;
+    right:0px
+}
+
+.loginError {
+    text-align: center;
+    color: red;
+    font-size: calc(6px + 2vmin);
+    margin-top: 1em;
 }
