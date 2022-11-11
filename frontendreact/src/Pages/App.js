@@ -106,7 +106,7 @@ class App extends React.Component {
                             this.state.user.id>0 &&
                             <div className="usermanager">
                                 <div className='dropdown'>
-                                        <a className='title dropdown-toggle' role="button" href="#" id="home-cmd" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-person"></i></a>
+                                        <a className='title dropdown-toggle' role="button" href="#" id="home-cmd" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-person-badge-fill bigute"></i></a>
                                         <ul className="dropdown-menu adjustment-left dropdown-menu-end">
                                             {
                                                 this.state.privilegi == 1 &&

@@ -116,3 +116,7 @@
     font-size: calc(6px + 2vmin);
     margin-top: 1em;
 }
+
+.bigute {
+    font-size: calc(14px + 2vmin);
+}
