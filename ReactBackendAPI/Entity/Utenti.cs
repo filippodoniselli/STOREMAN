@@ -5,7 +5,6 @@
         public Utenti()
         {
             Categories = new HashSet<Categorie>();
-            Prodottis = new HashSet<Prodotti>();
         }
 
         public int Id { get; set; }
@@ -17,6 +16,5 @@
 
         public virtual Privilegi PrivilegiNavigation { get; set; } = null!;
         public virtual ICollection<Categorie> Categories { get; set; }
-        public virtual ICollection<Prodotti> Prodottis { get; set; }
     }
 }

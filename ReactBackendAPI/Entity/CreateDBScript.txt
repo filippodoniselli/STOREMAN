@@ -162,11 +162,6 @@ REFERENCES [dbo].[Categorie] ([ID])
 
 ALTER TABLE [dbo].[Prodotti] CHECK CONSTRAINT [FK_Prodotti_Categorie]
 
-ALTER TABLE [dbo].[Prodotti]  WITH CHECK ADD  CONSTRAINT [FK_Prodotti_Utenti] FOREIGN KEY([Creatore])
-REFERENCES [dbo].[Utenti] ([ID])
-
-ALTER TABLE [dbo].[Prodotti] CHECK CONSTRAINT [FK_Prodotti_Utenti]
-
 ALTER TABLE [dbo].[Utenti]  WITH CHECK ADD  CONSTRAINT [FK_Utenti_Privilegi] FOREIGN KEY([Privilegi])
 REFERENCES [dbo].[Privilegi] ([ID])
 

@@ -12,6 +12,5 @@
         public DateTime Data { get; set; }
 
         public virtual Categorie? CategoriaNavigation { get; set; }
-        public virtual Utenti CreatoreNavigation { get; set; } = null!;
     }
 }

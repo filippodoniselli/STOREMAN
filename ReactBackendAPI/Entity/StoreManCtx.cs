@@ -121,11 +121,6 @@ namespace ReactBackendAPI.Entity
                     .HasForeignKey(d => d.Categoria)
                     .HasConstraintName("FK_Prodotti_Categorie");
 
-                entity.HasOne(d => d.CreatoreNavigation)
-                    .WithMany(p => p.Prodottis)
-                    .HasForeignKey(d => d.Creatore)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Prodotti_Utenti");
             });
 
             modelBuilder.Entity<Utenti>(entity =>
