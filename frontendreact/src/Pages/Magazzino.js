@@ -1,5 +1,5 @@
 import '../Styles/Tables.css';
-import $ from 'jquery'
+import $, { each } from 'jquery'
 import React from 'react';
 
 class Magazzino extends React.Component {
@@ -25,6 +25,7 @@ class Magazzino extends React.Component {
         this.editPrez = this.editPrez.bind(this)
         this.editQuan = this.editQuan.bind(this)
         this.getCategorie = this.getCategorie.bind(this)
+        this.searchInTable = this.searchInTable.bind(this)
     }
 
     componentDidMount() {
@@ -91,6 +92,9 @@ class Magazzino extends React.Component {
     Table = (props) => {
         return (
             <div id="grid">
+                <div class="form-outline mb-4">
+                    <input type="text" class="form-control" id="datatable-search-input" placeholder="Cerca" onChange={this.searchInTable} />
+                </div>
                 <this.Header presente={props.prodotti.length > 0 || props.visible} />
                 {props.prodotti.map(element => {
                     if (this.state.inEdit != element.id) {
@@ -180,6 +184,26 @@ class Magazzino extends React.Component {
                 <this.Adder visible={props.visible} />
             </div>
         );
+    }
+
+    searchInTable(e) {
+        var value = e.target.value
+        $("#grid .row").filter(function () {
+            if (this.id != "gridHead") {
+                var i = 1;
+                var vedi = false
+                for (i = 1; i < this.children.length; i++) {
+                    vedi = this.children[i].textContent.toLowerCase().includes(value)
+                    if (vedi) {
+                        this.style.display = ""
+                        break
+                    }
+                }
+                if (!vedi) {
+                    this.style.display = "none"
+                }
+            }
+        });
     }
 
     Header = (props) => {

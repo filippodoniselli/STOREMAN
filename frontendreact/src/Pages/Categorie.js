@@ -18,6 +18,7 @@ class Categorie extends React.Component {
         this.addCate = this.addCate.bind(this);
         this.Remove = this.Remove.bind(this);
         this.editNome = this.editNome.bind(this);
+        this.searchInTable = this.searchInTable.bind(this)
     }
 
     componentDidMount() {
@@ -67,6 +68,9 @@ class Categorie extends React.Component {
     Table = (props) => {
         return (
             <div id="grid">
+                <div class="form-outline mb-4">
+                    <input type="text" class="form-control" id="datatable-search-input" placeholder="Cerca" onChange={this.searchInTable} />
+                </div>
                 <this.Header presente={props.categorie.length > 0 || props.visible} />
                 {props.categorie.map(element => {
                     if (this.state.inEdit != element.id) {
@@ -102,6 +106,27 @@ class Categorie extends React.Component {
             </div>
         );
     }
+
+    searchInTable(e) {
+        var value = e.target.value
+        $("#grid .row").filter(function () {
+            if (this.id != "gridHead") {
+                var i = 1;
+                var vedi = false
+                for (i = 1; i < this.children.length; i++) {
+                    vedi = this.children[i].textContent.toLowerCase().includes(value)
+                    if (vedi) {
+                        this.style.display = ""
+                        break
+                    }
+                }
+                if (!vedi) {
+                    this.style.display = "none"
+                }
+            }
+        });
+    }
+
 
     Header = (props) => {
         if (props.presente) {

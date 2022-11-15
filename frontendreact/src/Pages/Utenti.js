@@ -21,6 +21,7 @@ class Utenti extends React.Component {
         this.editUser = this.editUser.bind(this);
         this.editPass = this.editPass.bind(this);
         this.getPrivilegi = this.getPrivilegi.bind(this);
+        this.searchInTable = this.searchInTable.bind(this)
     }
 
     componentDidMount() {
@@ -84,6 +85,9 @@ class Utenti extends React.Component {
     Table = (props) => {
         return (
             <div id="grid">
+                <div class="form-outline mb-4">
+                    <input type="text" class="form-control" id="datatable-search-input" placeholder="Cerca" onChange={this.searchInTable} />
+                </div>
                 <this.Header presente={props.utenti.length > 0 || props.visible} />
                 {props.utenti.map(element => {
                     if (this.state.inEdit != element.id && element.id != this.state.utente) {
@@ -126,6 +130,26 @@ class Utenti extends React.Component {
                 <this.Adder visible={props.visible} />
             </div>
         );
+    }
+
+    searchInTable(e) {
+        var value = e.target.value
+        $("#grid .row").filter(function () {
+            if (this.id != "gridHead") {
+                var i = 1;
+                var vedi = false
+                for (i = 1; i < this.children.length; i++) {
+                    vedi = this.children[i].textContent.toLowerCase().includes(value)
+                    if (vedi) {
+                        this.style.display = ""
+                        break
+                    }
+                }
+                if (!vedi) {
+                    this.style.display = "none"
+                }
+            }
+        });
     }
 
     Header = (props) => {
