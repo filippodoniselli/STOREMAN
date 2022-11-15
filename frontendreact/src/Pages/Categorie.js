@@ -69,7 +69,7 @@ class Categorie extends React.Component {
         return (
             <div id="grid">
                 <div class="form-outline mb-4">
-                    <input type="text" class="form-control" id="datatable-search-input" placeholder="Cerca" onChange={this.searchInTable} />
+                    <input type="text" class="form-control" id="datatable-search-input" autoComplete="off"  placeholder="Cerca" onChange={this.searchInTable} />
                 </div>
                 <this.Header presente={props.categorie.length > 0 || props.visible} />
                 {props.categorie.map(element => {
@@ -108,7 +108,7 @@ class Categorie extends React.Component {
     }
 
     searchInTable(e) {
-        var value = e.target.value
+        var value = e.target.value.toLowerCase()
         $("#grid .row").filter(function () {
             if (this.id != "gridHead") {
                 var i = 1;
