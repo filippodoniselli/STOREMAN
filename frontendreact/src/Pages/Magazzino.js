@@ -188,11 +188,15 @@ class Magazzino extends React.Component {
 
     searchInTable(e) {
         var value = e.target.value.toLowerCase()
+        var priv = this.state.privilegi
         $("#grid .row").filter(function () {
             if (this.id != "gridHead") {
-                var i = 1;
+                var i = 0;
                 var vedi = false
-                for (i = 1; i < this.children.length; i++) {
+                for (i = 0; i < this.children.length; i++) {
+                    if (i == 0 && priv != 3) {
+                        continue
+                    }
                     vedi = this.children[i].textContent.toLowerCase().includes(value)
                     if (vedi) {
                         this.style.display = ""

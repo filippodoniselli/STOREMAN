@@ -4,6 +4,10 @@
     flex-direction: row;
 }
 
+#grid {
+    margin-bottom: 1em;
+}
+
 .alert-footer {
     margin: auto;
     position: fixed;
