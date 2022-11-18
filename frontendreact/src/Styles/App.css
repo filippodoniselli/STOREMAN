@@ -9,11 +9,15 @@
   justify-content: left;
 }
 
-.title-main{
-  margin-left: 0.5em;
-  margin-right: 1em;
-  color:white;
-  text-decoration: none;
+header:hover{
+    cursor: pointer;
+}
+
+.title-main {
+    margin-left: 0.5em;
+    margin-right: 1em;
+    color: white;
+    text-decoration: none;
 }
 
 .title-main:hover {

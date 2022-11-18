@@ -60,9 +60,9 @@ class App extends React.Component {
                 <div className='top-bar'>
                     <nav className="navbar">
                         <header>
-                            <h2>
+                            <h2 onClick={this.TitleClick}>
                                 <i className="bi bi-box-seam-fill"></i>
-                                <a className='title-main' onClick={this.TitleClick}>StoreMan</a>
+                                <a className='title-main'>StoreMan</a>
                             </h2>
                         </header>
                     </nav>
