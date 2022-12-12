@@ -240,13 +240,20 @@ class Utenti extends React.Component {
     }
 
     async addUsers() {
-        let result = await fetch("https://localhost:5001/Utenti/Add/?parameters=" + this.state.utente + "|" + $("#userN").val() + "|" + $("#pwd").val() + "|" + $("#adderSelect").val(), {
+        let result = await fetch("https://localhost:5001/Utenti/Add/", {
             method: "POST", // *GET, POST, PUT, DELETE, etc.
             credentials: "same-origin", // include, *same-origin, omit
+            body: JSON.stringify({
+                    username: $("#userN").val(),
+                    password: $("#pwd").val(),
+                    creatore: this.state.utente,
+                    privilegi: $("#adderSelect").val()
+            }),
             headers: {
                 "Content-Type": "text/plain",
                 'Accept': 'text/plain',
                 "Access-Control-Allow-Origin": "http://localhost:3000",
+                
             }
         }).then(res => res.text());
         $(".alert").remove();

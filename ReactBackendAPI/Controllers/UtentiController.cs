@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 using ReactBackendAPI.Entity;
 
 namespace ReactBackendAPI.Controllers
@@ -73,15 +74,17 @@ namespace ReactBackendAPI.Controllers
         }
 
         [HttpPost]
-        public string Add(string parameters)
+        public string Add()
         {
-            string[] elements = parameters.Replace(" ", "").Split("|");
-            if (elements.Length == 4 && !elements.Contains(""))
+            HttpContext.Request.EnableBuffering();
+            string sasr = new StreamReader(HttpContext.Request.Body).ReadToEndAsync().Result;
+            if (sasr != null)
             {
-                StoreManCtx ctx = new StoreManCtx();
-                Utenti mario = new Utenti() { Creatore = Convert.ToInt32(elements[0]), Username = elements[1], Password = elements[2], Privilegi = Convert.ToInt32(elements[3]), Data = DateTime.Now };
                 try
                 {
+                    JObject body = JObject.Parse(sasr);
+                    StoreManCtx ctx = new StoreManCtx();
+                    Utenti mario = new Utenti() { Username = (string)body["username"], Password = (string)body["password"], Creatore = (int)body["creatore"], Privilegi = (int)body["privilegi"], Data = DateTime.Now };
                     ctx.Utentis.Add(mario);
                     ctx.SaveChanges();
                     return "Aggiunto correttamente";
