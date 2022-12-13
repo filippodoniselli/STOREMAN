@@ -43,17 +43,20 @@ namespace ReactBackendAPI.Controllers
                     }
                     else
                     {
+                        HttpContext.Response.StatusCode = 404;
                         return "Non trovato su DB";
                     }
 
                 }
                 else
                 {
+                    HttpContext.Response.StatusCode = 400;
                     return "Caratteri non validi";
                 }
             }
             catch
             {
+                HttpContext.Response.StatusCode = 409;
                 return "Rimozione fallita";
             }
         }
@@ -72,7 +75,8 @@ namespace ReactBackendAPI.Controllers
                     Prodotti? prod = ctx.Prodottis.Where(x => x.Id == (int)body["id"]).FirstOrDefault();
                     if (prod == null)
                     {
-                        return "Modifica fallita";
+                        HttpContext.Response.StatusCode = 404;
+                        return "Non trovato su DB";
                     }
                     else
                     {
@@ -88,11 +92,13 @@ namespace ReactBackendAPI.Controllers
                 }
                 else
                 {
+                    HttpContext.Response.StatusCode = 400;
                     return "Caratteri non validi";
                 }
             }
             catch
             {
+                HttpContext.Response.StatusCode = 409;
                 return "Modifica fallita";
             }
         }
@@ -115,11 +121,13 @@ namespace ReactBackendAPI.Controllers
                 }
                 else
                 {
+                    HttpContext.Response.StatusCode = 400;
                     return "Caratteri non validi";
                 }
             }
             catch
             {
+                HttpContext.Response.StatusCode = 409;
                 return "Aggiunta fallita";
             }
         }
