@@ -45,31 +45,42 @@ namespace ReactBackendAPI.Controllers
         public List<Utenti> All()
         {
             StoreManCtx ctx = new StoreManCtx();
-            List<Utenti> mario = ctx.Utentis.Where(x=> x.Id> 1).Select(x => new Utenti() { Id = x.Id, Creatore = x.Creatore, Username = x.Username, Password = x.Password, Data = x.Data, Privilegi = x.Privilegi, PrivilegiNavigation = ctx.Privilegis.Where(p => p.Id == x.Privilegi).First() }).ToList();
+            List<Utenti> mario = ctx.Utentis.Where(x => x.Id > 1).Select(x => new Utenti() { Id = x.Id, Creatore = x.Creatore, Username = x.Username, Password = x.Password, Data = x.Data, Privilegi = x.Privilegi, PrivilegiNavigation = ctx.Privilegis.Where(p => p.Id == x.Privilegi).First() }).ToList();
             return mario;
         }
 
-        [HttpGet]
-        public string Remove(int parameters)
+        [HttpDelete]
+        public string Remove()
         {
-            StoreManCtx ctx = new StoreManCtx();
-            Utenti? user = ctx.Utentis.Where(x => x.Id == parameters).FirstOrDefault();
-            if (user != null)
+            HttpContext.Request.EnableBuffering();
+            string result = new StreamReader(HttpContext.Request.Body).ReadToEndAsync().Result;
+            try
             {
-                try
+                JObject body = JObject.Parse(result);
+                if (body != null)
                 {
-                    ctx.Utentis.Remove(user);
-                    ctx.SaveChanges();
-                    return "Rimosso con successo";
+                    StoreManCtx ctx = new StoreManCtx();
+                    Utenti ute = ctx.Utentis.Where(x=> x.Id == (int)body["id"]).FirstOrDefault();
+                    if (ute != null)
+                    {
+                        ctx.Utentis.Remove(ute);
+                        ctx.SaveChanges();
+                        return "Rimosso con successo";
+                    }
+                    else
+                    {
+                        return "Non trovato su DB";
+                    }
+                    
                 }
-                catch
+                else
                 {
-                    return "Rimozione fallita";
+                    return "Caratteri non validi";
                 }
             }
-            else
+            catch
             {
-                return "Non presente su DB";
+                return "Rimozione fallita";
             }
         }
 
@@ -77,61 +88,63 @@ namespace ReactBackendAPI.Controllers
         public string Add()
         {
             HttpContext.Request.EnableBuffering();
-            string sasr = new StreamReader(HttpContext.Request.Body).ReadToEndAsync().Result;
-            if (sasr != null)
+            string result = new StreamReader(HttpContext.Request.Body).ReadToEndAsync().Result;
+            try
             {
-                try
+                JObject body = JObject.Parse(result);
+                if (body != null)
                 {
-                    JObject body = JObject.Parse(sasr);
                     StoreManCtx ctx = new StoreManCtx();
-                    Utenti mario = new Utenti() { Username = (string)body["username"], Password = (string)body["password"], Creatore = (int)body["creatore"], Privilegi = (int)body["privilegi"], Data = DateTime.Now };
-                    ctx.Utentis.Add(mario);
+                    Utenti ute = new Utenti() { Username = (string)body["username"], Password = (string)body["password"], Creatore = (int)body["creatore"], Privilegi = (int)body["privilegi"], Data = DateTime.Now };
+                    ctx.Utentis.Add(ute);
                     ctx.SaveChanges();
                     return "Aggiunto correttamente";
                 }
-                catch
+                else
                 {
-                    return "Aggiunta fallita";
+                    return "Caratteri non validi";
                 }
             }
-            else
+            catch
             {
-                return "Caratteri non validi";
+                return "Aggiunta fallita";
             }
         }
 
-        [HttpPost]
-        public string Edit(string parameters)
+        [HttpPatch]
+        public string Edit()
         {
-            string[] elements = parameters.Replace(" ", "").Split("|");
-            if (elements.Length == 5 && !elements.Contains(""))
+            HttpContext.Request.EnableBuffering();
+            string result = new StreamReader(HttpContext.Request.Body).ReadToEndAsync().Result;
+            try
             {
-                StoreManCtx ctx = new StoreManCtx();
-                try
+                JObject body = JObject.Parse(result);
+                if (body != null)
                 {
-                    Utenti? mario = ctx.Utentis.Where(x => x.Id == Convert.ToInt32(elements[3])).FirstOrDefault();
-                    if (mario == null)
+                    StoreManCtx ctx = new StoreManCtx();
+                    Utenti? ute = ctx.Utentis.Where(x => x.Id == (int)body["id"]).FirstOrDefault();
+                    if (ute == null)
                     {
                         return "Modifica fallita";
                     }
                     else
                     {
-                        mario.Creatore = mario.Creatore == Convert.ToInt32(elements[0]) ? 0 : Convert.ToInt32(elements[0]);
-                        mario.Username = elements[1];
-                        mario.Password = elements[2];
-                        mario.Privilegi = Convert.ToInt32(elements[4]);
+                        ute.Creatore = ute.Creatore == (int)body["creatore"] ? 0 : (int)body["creatore"];
+                        ute.Username = (string)body["username"];
+                        ute.Password = (string)body["password"];
+                        ute.Privilegi = (int)body["privilegi"];
                         ctx.SaveChanges();
                         return "Modificato correttamente";
                     }
                 }
-                catch
+                else
                 {
-                    return "Modifica fallita";
+                    return "Caratteri non validi";
                 }
             }
-            else
+            catch
             {
-                return "Caratteri non validi";
+                return "Modifica fallita";
             }
         }
     }

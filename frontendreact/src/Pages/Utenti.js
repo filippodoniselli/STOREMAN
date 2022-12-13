@@ -201,9 +201,12 @@ class Utenti extends React.Component {
     }
 
     async Remove(id) {
-        let result = await fetch("https://localhost:5001/Utenti/Remove/?parameters=" + id, {
-            method: "GET", // *GET, POST, PUT, DELETE, etc.
+        let result = await fetch("https://localhost:5001/Utenti/Remove/", {
+            method: "DELETE", // *GET, POST, PUT, DELETE, etc.
             credentials: "same-origin", // include, *same-origin, omit
+            body: JSON.stringify({
+                id: id
+            }),
             headers: {
                 "Content-Type": "text/plain",
                 'Accept': 'text/plain',
@@ -220,9 +223,16 @@ class Utenti extends React.Component {
     }
 
     async saveChanges(id) {
-        let result = await fetch("https://localhost:5001/Utenti/Edit/?parameters=" + this.state.utente + "|" + this.state.edRow.username + "|" + this.state.edRow.password + "|" + id + "|" + $("#select" + id).val(), {
-            method: "POST", // *GET, POST, PUT, DELETE, etc.
+        let result = await fetch("https://localhost:5001/Utenti/Edit/", {
+            method: "PATCH", // *GET, POST, PUT, DELETE, etc.
             credentials: "same-origin", // include, *same-origin, omit
+            body: JSON.stringify({
+                id: id,
+                username: this.state.edRow.username,
+                password: this.state.edRow.password,
+                creatore: this.state.utente,
+                privilegi: $("#select" + id).val()
+            }),
             headers: {
                 "Content-Type": "text/plain",
                 'Accept': 'text/plain',

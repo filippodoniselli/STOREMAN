@@ -165,9 +165,12 @@ class Categorie extends React.Component {
     }
 
     async Remove(id) {
-        let result = await fetch("https://localhost:5001/Categorie/Remove/?parameters=" + id, {
-            method: "GET", // *GET, POST, PUT, DELETE, etc.
+        let result = await fetch("https://localhost:5001/Categorie/Remove/", {
+            method: "DELETE", // *GET, POST, PUT, DELETE, etc.
             credentials: "same-origin", // include, *same-origin, omit
+            body: JSON.stringify({
+                id: id
+            }),
             headers: {
                 "Content-Type": "text/plain",
                 'Accept': 'text/plain',
@@ -184,9 +187,14 @@ class Categorie extends React.Component {
     }
 
     async saveChanges(id) {
-        let result = await fetch("https://localhost:5001/Categorie/Edit/?parameters=" + this.state.utente + "|" + this.state.edRow.nome + "|" + id, {
-            method: "POST", // *GET, POST, PUT, DELETE, etc.
+        let result = await fetch("https://localhost:5001/Categorie/Edit/", {
+            method: "PATCH", // *GET, POST, PUT, DELETE, etc.
             credentials: "same-origin", // include, *same-origin, omit
+            body: JSON.stringify({
+                id: id,
+                nome: this.state.edRow.nome,
+                creatore: this.state.utente
+            }),
             headers: {
                 "Content-Type": "text/plain",
                 'Accept': 'text/plain',
@@ -204,9 +212,13 @@ class Categorie extends React.Component {
     }
 
     async addCate() {
-        let result = await fetch("https://localhost:5001/Categorie/Add/?parameters=" + this.state.utente + "|" + $("#nomeAdd").val(), {
+        let result = await fetch("https://localhost:5001/Categorie/Add/", {
             method: "POST", // *GET, POST, PUT, DELETE, etc.
             credentials: "same-origin", // include, *same-origin, omit
+            body: JSON.stringify({
+                nome: $("#nomeAdd").val(),
+                creatore: this.state.utente
+            }),
             headers: {
                 "Content-Type": "text/plain",
                 'Accept': 'text/plain',

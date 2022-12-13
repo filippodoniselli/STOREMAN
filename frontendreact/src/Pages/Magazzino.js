@@ -282,9 +282,12 @@ class Magazzino extends React.Component {
 
 
     async Remove(id) {
-        let result = await fetch("https://localhost:5001/Prodotti/Remove/?parameters=" + id, {
-            method: "GET", // *GET, POST, PUT, DELETE, etc.
+        let result = await fetch("https://localhost:5001/Prodotti/Remove/", {
+            method: "DELETE", // *GET, POST, PUT, DELETE, etc.
             credentials: "same-origin", // include, *same-origin, omit
+            body: JSON.stringify({
+                id: id
+            }),
             headers: {
                 "Content-Type": "text/plain",
                 'Accept': 'text/plain',
@@ -307,9 +310,18 @@ class Magazzino extends React.Component {
         } else {
             cate = this.state.edRow.categoria
         }
-        let result = await fetch("https://localhost:5001/Prodotti/Edit/?parameters=" + this.state.utente + "|" + id + "|" + this.state.edRow.nome + "|" + this.state.edRow.descrizione + "|" + cate + "|" + this.state.edRow.prezzo + "|" + this.state.edRow.quantità, {
-            method: "POST", // *GET, POST, PUT, DELETE, etc.
+        let result = await fetch("https://localhost:5001/Prodotti/Edit/", {
+            method: "PATCH", // *GET, POST, PUT, DELETE, etc.
             credentials: "same-origin", // include, *same-origin, omit
+            body: JSON.stringify({
+                creatore: this.state.utente,
+                id: id,
+                nome: this.state.edRow.nome,
+                descrizione: this.state.edRow.descrizione,
+                prezzo: this.state.edRow.prezzo,
+                quantità: this.state.edRow.quantità,
+                categoria: cate
+            }),
             headers: {
                 "Content-Type": "text/plain",
                 'Accept': 'text/plain',
@@ -328,9 +340,17 @@ class Magazzino extends React.Component {
 
     async addUsers() {
         var cate = this.state.tabella == "All" ? $("#adderSelect").val() : this.state.tabella
-        let result = await fetch("https://localhost:5001/Prodotti/Add/?parameters=" + this.state.utente + "|" + $("#nomeAdd").val() + "|" + $("#descAdd").val() + "|" + cate + "|" + $("#prezAdd").val() + "|" + $("#quanAdd").val(), {
+        let result = await fetch("https://localhost:5001/Prodotti/Add/", {
             method: "POST", // *GET, POST, PUT, DELETE, etc.
             credentials: "same-origin", // include, *same-origin, omit
+            body: JSON.stringify({
+                nome: $("#nomeAdd").val(),
+                descrizione: $("#descAdd").val(),
+                creatore: this.state.utente,
+                categoria: cate,
+                prezzo: $("#prezAdd").val(),
+                quantità: $("#quanAdd").val()
+            }),
             headers: {
                 "Content-Type": "text/plain",
                 'Accept': 'text/plain',

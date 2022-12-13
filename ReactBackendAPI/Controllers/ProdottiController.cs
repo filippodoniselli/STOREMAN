@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 using ReactBackendAPI.Entity;
 
 namespace ReactBackendAPI.Controllers
@@ -22,92 +23,105 @@ namespace ReactBackendAPI.Controllers
             }
         }
 
-        [HttpGet]
-        public string Remove(int parameters)
+        [HttpDelete]
+        public string Remove()
         {
-            StoreManCtx ctx = new StoreManCtx();
-            Prodotti? mario = ctx.Prodottis.Where(x => x.Id == parameters).FirstOrDefault();
-            if (mario != null)
+            HttpContext.Request.EnableBuffering();
+            string result = new StreamReader(HttpContext.Request.Body).ReadToEndAsync().Result;
+            try
             {
-                try
+                JObject body = JObject.Parse(result);
+                if (body != null)
                 {
-                    ctx.Prodottis.Remove(mario);
-                    ctx.SaveChanges();
-                    return "Rimosso con successo";
+                    StoreManCtx ctx = new StoreManCtx();
+                    Prodotti ute = ctx.Prodottis.Where(x => x.Id == (int)body["id"]).FirstOrDefault();
+                    if (ute != null)
+                    {
+                        ctx.Prodottis.Remove(ute);
+                        ctx.SaveChanges();
+                        return "Rimosso con successo";
+                    }
+                    else
+                    {
+                        return "Non trovato su DB";
+                    }
+
                 }
-                catch
+                else
                 {
-                    return "Rimozione fallita";
+                    return "Caratteri non validi";
                 }
             }
-            else
+            catch
             {
-                return "Non presente su DB";
+                return "Rimozione fallita";
             }
         }
 
-        [HttpPost]
-        public string Edit(string parameters)
+        [HttpPatch]
+        public string Edit()
         {
-            string[] elements = parameters.Split("|");
-            if (elements.Length == 7)
+            HttpContext.Request.EnableBuffering();
+            string result = new StreamReader(HttpContext.Request.Body).ReadToEndAsync().Result;
+            try
             {
-                StoreManCtx ctx = new StoreManCtx();
-                try
+                JObject body = JObject.Parse(result);
+                if (body != null)
                 {
-                    Prodotti? mario = ctx.Prodottis.Where(x => x.Id == Convert.ToInt32(elements[1])).FirstOrDefault();
-                    if (mario == null)
+                    StoreManCtx ctx = new StoreManCtx();
+                    Prodotti? prod = ctx.Prodottis.Where(x => x.Id == (int)body["id"]).FirstOrDefault();
+                    if (prod == null)
                     {
                         return "Modifica fallita";
                     }
                     else
                     {
-                        mario.Creatore = Convert.ToInt32(elements[0]);
-                        mario.Nome = elements[2];
-                        mario.Descrizione = elements[3];
-                        mario.Categoria = ctx.Categories.Where(x => x.Nome == elements[4]).FirstOrDefault()?.Id;
-                        mario.Prezzo = Convert.ToDouble(elements[5].Replace(".", ","));
-                        mario.Quantità = Convert.ToInt32(elements[6]);
+                        prod.Creatore = prod.Creatore == (int)body["creatore"] ? 0 : (int)body["creatore"];
+                        prod.Nome = (string)body["nome"];
+                        prod.Descrizione = (string)body["descrizione"];
+                        prod.Categoria = ctx.Categories.Where(x => x.Nome == (string)body["categoria"]).FirstOrDefault().Id;
+                        prod.Prezzo = Convert.ToDouble(body["prezzo"].ToString().Replace(".", ","));
+                        prod.Quantità = (int)body["quantità"];
                         ctx.SaveChanges();
                         return "Modificato correttamente";
                     }
                 }
-                catch
+                else
                 {
-                    return "Modifica fallita";
+                    return "Caratteri non validi";
                 }
             }
-            else
+            catch
             {
-                return "Caratteri non validi";
+                return "Modifica fallita";
             }
         }
 
         [HttpPost]
-        public string Add(string parameters)
+        public string Add()
         {
-            string[] elements = parameters.Split("|");
-            if (elements.Length == 6)
+            HttpContext.Request.EnableBuffering();
+            string result = new StreamReader(HttpContext.Request.Body).ReadToEndAsync().Result;
+            try
             {
-                StoreManCtx ctx = new StoreManCtx();
-                Prodotti mario = new Prodotti() { Creatore = Convert.ToInt32(elements[0]), Nome = elements[1], Descrizione = elements[2], Categoria = ctx.Categories.Where(x => x.Nome == elements[3]).FirstOrDefault()?.Id, Prezzo = Convert.ToDouble(elements[4].Replace(".", ",")), Quantità = Convert.ToInt32(elements[5]), Data = DateTime.Now };
-                try
+                JObject body = JObject.Parse(result);
+                if (body != null)
                 {
-                    ctx.Prodottis.Add(mario);
+                    StoreManCtx ctx = new StoreManCtx();
+                    Prodotti prod = new Prodotti() { Nome = (string)body["nome"], Descrizione = (string)body["descrizione"], Creatore = (int)body["creatore"], Categoria = ctx.Categories.Where(x=> x.Nome == (string)body["categoria"]).FirstOrDefault().Id, Prezzo = Convert.ToDouble(body["prezzo"].ToString().Replace(".",",")), Quantità = (int)body["quantità"], Data = DateTime.Now };
+                    ctx.Prodottis.Add(prod);
                     ctx.SaveChanges();
                     return "Aggiunto correttamente";
                 }
-                catch
+                else
                 {
-                    return "Aggiunta fallita";
+                    return "Caratteri non validi";
                 }
             }
-            else
+            catch
             {
-                return "Caratteri non validi";
+                return "Aggiunta fallita";
             }
         }
-
-
     }
 }

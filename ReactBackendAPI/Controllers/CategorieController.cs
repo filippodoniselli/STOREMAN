@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 using ReactBackendAPI.Entity;
 
 namespace ReactBackendAPI.Controllers
@@ -18,90 +19,104 @@ namespace ReactBackendAPI.Controllers
         public Object[] GetCategorieNotNull()
         {
             StoreManCtx ctx = new StoreManCtx();
-            var mario = ctx.Categories.Where(x => x.Prodottis.Count() > 0).Select(x=> new { id = x.Id, nome = x.Nome, quantity = ctx.Prodottis.Where(t => t.Categoria == x.Id && t.Quantità == 0).Count() }).ToList(); ;
+            var mario = ctx.Categories.Where(x => x.Prodottis.Count() > 0).Select(x => new { id = x.Id, nome = x.Nome, quantity = ctx.Prodottis.Where(t => t.Categoria == x.Id && t.Quantità == 0).Count() }).ToList(); ;
             return mario.ToArray();
         }
 
-        [HttpGet]
-        public string Remove(int parameters)
+        [HttpDelete]
+        public string Remove()
         {
-            StoreManCtx ctx = new StoreManCtx();
-            Categorie? cate = ctx.Categories.Where(x => x.Id == parameters).FirstOrDefault();
-            if (cate != null)
+            HttpContext.Request.EnableBuffering();
+            string result = new StreamReader(HttpContext.Request.Body).ReadToEndAsync().Result;
+            try
             {
-                try
+                JObject body = JObject.Parse(result);
+                if (body != null)
                 {
-                    ctx.Categories.Remove(cate);
-                    ctx.Prodottis.RemoveRange(ctx.Prodottis.Where(x=> x.Categoria == parameters).ToList());
-                    ctx.SaveChanges();
-                    return "Rimosso con successo";
+                    StoreManCtx ctx = new StoreManCtx();
+                    Categorie cat = ctx.Categories.Where(x => x.Id == (int)body["id"]).FirstOrDefault();
+                    if (cat != null)
+                    {
+                        ctx.Categories.Remove(cat);
+                        ctx.SaveChanges();
+                        return "Rimosso con successo";
+                    }
+                    else
+                    {
+                        return "Non trovato su DB";
+                    }
+
                 }
-                catch
+                else
                 {
-                    return "Rimozione fallita";
+                    return "Caratteri non validi";
                 }
             }
-            else
+            catch
             {
-                return "Non presente su DB";
+                return "Rimozione fallita";
             }
         }
 
         [HttpPost]
-        public string Add(string parameters)
+        public string Add()
         {
-            string[] elements = parameters.Split("|");
-            if (elements.Length == 2 && !elements.Contains(""))
+            HttpContext.Request.EnableBuffering();
+            string result = new StreamReader(HttpContext.Request.Body).ReadToEndAsync().Result;
+            try
             {
-                StoreManCtx ctx = new StoreManCtx();
-                Categorie mario = new Categorie() { Creatore = Convert.ToInt32(elements[0]), Nome = elements[1], Data = DateTime.Now };
-                try
+                JObject body = JObject.Parse(result);
+                if (body != null)
                 {
-                    ctx.Categories.Add(mario);
+                    StoreManCtx ctx = new StoreManCtx();
+                    Categorie cat = new Categorie() { Nome = (string)body["nome"], Creatore = (int)body["creatore"], Data = DateTime.Now };
+                    ctx.Categories.Add(cat);
                     ctx.SaveChanges();
                     return "Aggiunto correttamente";
                 }
-                catch
+                else
                 {
-                    return "Aggiunta fallita";
+                    return "Caratteri non validi";
                 }
             }
-            else
+            catch
             {
-                return "Caratteri non validi";
+                return "Aggiunta fallita";
             }
         }
 
-        [HttpPost]
-        public string Edit(string parameters)
+        [HttpPatch]
+        public string Edit()
         {
-            string[] elements = parameters.Split("|");
-            if (elements.Length == 3 && !elements.Contains(""))
+            HttpContext.Request.EnableBuffering();
+            string result = new StreamReader(HttpContext.Request.Body).ReadToEndAsync().Result;
+            try
             {
-                StoreManCtx ctx = new StoreManCtx();
-                try
+                JObject body = JObject.Parse(result);
+                if (body != null)
                 {
-                    Categorie? mario = ctx.Categories.Where(x => x.Id == Convert.ToInt32(elements[2])).FirstOrDefault();
-                    if (mario == null)
+                    StoreManCtx ctx = new StoreManCtx();
+                    Categorie? cat = ctx.Categories.Where(x => x.Id == (int)body["id"]).FirstOrDefault();
+                    if (cat == null)
                     {
                         return "Modifica fallita";
                     }
                     else
                     {
-                        mario.Creatore = Convert.ToInt32(elements[0]);
-                        mario.Nome = elements[1];
+                        cat.Creatore = (int)body["creatore"];
+                        cat.Nome = (string)body["nome"];
                         ctx.SaveChanges();
                         return "Modificato correttamente";
                     }
                 }
-                catch
+                else
                 {
-                    return "Modifica fallita";
+                    return "Caratteri non validi";
                 }
             }
-            else
+            catch
             {
-                return "Caratteri non validi";
+                return "Modifica fallita";
             }
         }
 

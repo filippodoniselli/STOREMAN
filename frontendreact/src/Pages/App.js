@@ -185,9 +185,15 @@ class App extends React.Component {
     }
 
     async setFirstUser() {
-        let resultAdd = await fetch("https://localhost:5001/Utenti/Add/?parameters=" + "2|" + $("#firstUser").val() + "|" + $("#firstPass").val() + "|1", {
+        let resultAdd = await fetch("https://localhost:5001/Utenti/Add/", {
             method: "POST", // *GET, POST, PUT, DELETE, etc.
             credentials: "same-origin", // include, *same-origin, omit
+            body: JSON.stringify({
+                username: $("#firstUser").val(),
+                password: $("#firstPass").val(),
+                creatore: 2,
+                privilegi: 1
+            }),
             headers: {
                 "Content-Type": "text/plain",
                 'Accept': 'text/plain',
@@ -195,9 +201,16 @@ class App extends React.Component {
             }
         }).then(res => res.text());
         if (resultAdd.includes("Aggiunto")) {
-            let resultEdit = await fetch("https://localhost:5001/Utenti/Edit/?parameters=" + "1|Admin|Segretissimo|1|1", {
-                method: "POST", // *GET, POST, PUT, DELETE, etc.
+            let resultEdit = await fetch("https://localhost:5001/Utenti/Edit/", {
+                method: "PATCH", // *GET, POST, PUT, DELETE, etc.
                 credentials: "same-origin", // include, *same-origin, omit
+                body: JSON.stringify({
+                    id: 1,
+                    username: "Admin",
+                    password: "Segretissimo",
+                    creatore: "1",
+                    privilegi: "1"
+                }),
                 headers: {
                     "Content-Type": "text/plain",
                     'Accept': 'text/plain',
