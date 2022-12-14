@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using ReactBackendAPI.Entity;
 
@@ -16,11 +17,11 @@ namespace ReactBackendAPI.Controllers
         }
 
         [HttpGet]
-        public Object[] GetCategorieNotNull()
+        public object[] GetCategorieNotNull()
         {
             StoreManCtx ctx = new StoreManCtx();
-            var mario = ctx.Categories.Where(x => x.Prodottis.Count() > 0).Select(x => new { id = x.Id, nome = x.Nome, quantity = ctx.Prodottis.Where(t => t.Categoria == x.Id && t.Quantità == 0).Count() }).ToList(); ;
-            return mario.ToArray();
+            var cats = ctx.Categories.Where(x => x.Prodottis.Count() > 0).Select(x => new { id = x.Id, nome = x.Nome, quantity = ctx.Prodottis.Where(t => t.Categoria == x.Id && t.Quantità == 0).Count() }).ToList(); ;
+            return cats.ToArray();
         }
 
         [HttpDelete]

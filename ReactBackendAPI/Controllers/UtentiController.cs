@@ -45,8 +45,8 @@ namespace ReactBackendAPI.Controllers
         public List<Utenti> All()
         {
             StoreManCtx ctx = new StoreManCtx();
-            List<Utenti> mario = ctx.Utentis.Where(x => x.Id > 1).Select(x => new Utenti() { Id = x.Id, Creatore = x.Creatore, Username = x.Username, Password = x.Password, Data = x.Data, Privilegi = x.Privilegi, PrivilegiNavigation = ctx.Privilegis.Where(p => p.Id == x.Privilegi).First() }).ToList();
-            return mario;
+            List<Utenti> utes = ctx.Utentis.Where(x => x.Id > 1).Select(x => new Utenti() { Id = x.Id, Creatore = x.Creatore, Username = x.Username, Password = x.Password, Data = x.Data, Privilegi = x.Privilegi, PrivilegiNavigation = ctx.Privilegis.Where(p => p.Id == x.Privilegi).First() }).ToList();
+            return utes;
         }
 
         [HttpDelete]
